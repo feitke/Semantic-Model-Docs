@@ -1,0 +1,100 @@
+{
+  "model_name": "S&P Company Report",
+  "workspace": "SMDocTest",
+  "generated_at": "2026-02-11T16:23:17-05:00",
+  "sources": [
+    {
+      "connector": "Csv.Document",
+      "host": null,
+      "database": null,
+      "source_objects": [],
+      "raw": "Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_companies.csv\")",
+      "m_expression": "let\n    Source = Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_companies.csv\"),[Delimiter=\",\", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),\n    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Exchange\", type text}, {\"Symbol\", type text}, {\"Shortname\", type text}, {\"Longname\", type text}, {\"Sector\", type text}, {\"Industry\", type text}, {\"Currentprice\", type number}, {\"Marketcap\", Int64.Type}, {\"Ebitda\", Int64.Type}, {\"Revenuegrowth\", type number}, {\"City\", type text}, {\"State\", type text}, {\"Country\", type text}, {\"Fulltimeemployees\", Int64.Type}, {\"Longbusinesssummary\", type text}, {\"Weight\", type number}})\nin\n    #\"Changed Type\""
+    },
+    {
+      "connector": "Csv.Document",
+      "host": null,
+      "database": null,
+      "source_objects": [],
+      "raw": "Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_index.csv\")",
+      "m_expression": "let\n    Source = Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_index.csv\"),[Delimiter=\",\", Columns=2, Encoding=1252, QuoteStyle=QuoteStyle.None]),\n    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Date\", type date}, {\"S&P500\", type number}}),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"S&P500\", \"ClosingPrice\"}})\nin\n    #\"Renamed Columns\""
+    },
+    {
+      "connector": "Csv.Document",
+      "host": null,
+      "database": null,
+      "source_objects": [],
+      "raw": "Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_stocks.csv\")",
+      "m_expression": "let\n    Source = Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_stocks.csv\"),[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),\n    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Date\", type date}, {\"Symbol\", type text}, {\"Adj Close\", type number}, {\"Close\", type number}, {\"High\", type number}, {\"Low\", type number}, {\"Open\", type number}, {\"Volume\", Int64.Type}})\nin\n    #\"Changed Type\""
+    }
+  ],
+  "table_map": {
+    "DimCompany": [
+      {
+        "connector": "Csv.Document",
+        "host": null,
+        "database": null,
+        "source_objects": [],
+        "raw": "Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_companies.csv\")",
+        "m_expression": "let\n    Source = Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_companies.csv\"),[Delimiter=\",\", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),\n    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Exchange\", type text}, {\"Symbol\", type text}, {\"Shortname\", type text}, {\"Longname\", type text}, {\"Sector\", type text}, {\"Industry\", type text}, {\"Currentprice\", type number}, {\"Marketcap\", Int64.Type}, {\"Ebitda\", Int64.Type}, {\"Revenuegrowth\", type number}, {\"City\", type text}, {\"State\", type text}, {\"Country\", type text}, {\"Fulltimeemployees\", Int64.Type}, {\"Longbusinesssummary\", type text}, {\"Weight\", type number}})\nin\n    #\"Changed Type\""
+      }
+    ],
+    "FactS&PClose": [
+      {
+        "connector": "Csv.Document",
+        "host": null,
+        "database": null,
+        "source_objects": [],
+        "raw": "Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_index.csv\")",
+        "m_expression": "let\n    Source = Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_index.csv\"),[Delimiter=\",\", Columns=2, Encoding=1252, QuoteStyle=QuoteStyle.None]),\n    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Date\", type date}, {\"S&P500\", type number}}),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"S&P500\", \"ClosingPrice\"}})\nin\n    #\"Renamed Columns\""
+      }
+    ],
+    "FactStockPrices": [
+      {
+        "connector": "Csv.Document",
+        "host": null,
+        "database": null,
+        "source_objects": [],
+        "raw": "Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_stocks.csv\")",
+        "m_expression": "let\n    Source = Csv.Document(File.Contents(\"C:\\Users\\KevinFeit\\OneDrive - Spyglass Solutions, Inc\\Documents\\Baupost\\PBI Firmwide Adoption\\sp500_stocks.csv\"),[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),\n    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Date\", type date}, {\"Symbol\", type text}, {\"Adj Close\", type number}, {\"Close\", type number}, {\"High\", type number}, {\"Low\", type number}, {\"Open\", type number}, {\"Volume\", Int64.Type}})\nin\n    #\"Changed Type\""
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "fromTable": "FactStockPrices",
+      "fromColumn": "Symbol",
+      "toTable": "DimCompany",
+      "toColumn": "Symbol",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "AutoDetected_185337d8-ed45-417d-bde2-8c45d8390f47"
+    },
+    {
+      "fromTable": "FactStockPrices",
+      "fromColumn": "Date",
+      "toTable": "DimDate",
+      "toColumn": "Date",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "48304a32-202a-47f2-19da-e9daf63319a1"
+    },
+    {
+      "fromTable": "FactS&PClose",
+      "fromColumn": "Date",
+      "toTable": "DimDate",
+      "toColumn": "Date",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "8fe7d09b-6e66-7db6-7d23-f135d7cbc8e3"
+    }
+  ],
+  "rls_roles": [],
+  "named_expressions": []
+}

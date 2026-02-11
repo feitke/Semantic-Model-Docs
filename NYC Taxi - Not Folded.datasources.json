@@ -1,0 +1,34 @@
+{
+  "model_name": "NYC Taxi - Not Folded",
+  "workspace": "SMDocTest",
+  "generated_at": "2026-02-11T16:23:27-05:00",
+  "sources": [
+    {
+      "connector": "Sql.Database",
+      "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+      "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+      "source_objects": [
+        "dbo.Trip"
+      ],
+      "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+      "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Trip = Source{[Schema=\"dbo\",Item=\"Trip\"]}[Data],\n    #\"Duplicated Column\" = Table.DuplicateColumn(dbo_Trip, \"DateID\", \"DateID - Copy\"),\n    #\"Split Column by Positions\" = Table.SplitColumn(Table.TransformColumnTypes(#\"Duplicated Column\", {{\"DateID - Copy\", type text}}, \"en-US\"), \"DateID - Copy\", Splitter.SplitTextByPositions({0, 6}), {\"DateID - Copy.1\", \"DateID - Copy.2\"}),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Split Column by Positions\",{{\"DateID - Copy.1\", Int64.Type}, {\"DateID - Copy.2\", Int64.Type}}),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"DateID - Copy.1\", \"YYYYMM\"}}),\n    #\"Removed Columns\" = Table.RemoveColumns(#\"Renamed Columns\",{\"DateID - Copy.2\"}),\n    #\"Reordered Columns\" = Table.ReorderColumns(#\"Removed Columns\",{\"YYYYMM\", \"DateID\", \"MedallionID\", \"HackneyLicenseID\", \"PickupTimeID\", \"DropoffTimeID\", \"PickupGeographyID\", \"DropoffGeographyID\", \"PickupLatitude\", \"PickupLongitude\", \"PickupLatLong\", \"DropoffLatitude\", \"DropoffLongitude\", \"DropoffLatLong\", \"PassengerCount\", \"TripDurationSeconds\", \"TripDistanceMiles\", \"PaymentType\", \"FareAmount\", \"SurchargeAmount\", \"TaxAmount\", \"TipAmount\", \"TollsAmount\", \"TotalAmount\"}),\n    #\"Filtered Rows\" = Table.SelectRows(#\"Reordered Columns\", each ([YYYYMM] = 201301)),\n    #\"Removed Columns1\" = Table.RemoveColumns(#\"Filtered Rows\",{\"YYYYMM\"})\nin\n    #\"Removed Columns1\""
+    }
+  ],
+  "table_map": {
+    "JanTrips-NotFolded": [
+      {
+        "connector": "Sql.Database",
+        "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+        "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+        "source_objects": [
+          "dbo.Trip"
+        ],
+        "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+        "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Trip = Source{[Schema=\"dbo\",Item=\"Trip\"]}[Data],\n    #\"Duplicated Column\" = Table.DuplicateColumn(dbo_Trip, \"DateID\", \"DateID - Copy\"),\n    #\"Split Column by Positions\" = Table.SplitColumn(Table.TransformColumnTypes(#\"Duplicated Column\", {{\"DateID - Copy\", type text}}, \"en-US\"), \"DateID - Copy\", Splitter.SplitTextByPositions({0, 6}), {\"DateID - Copy.1\", \"DateID - Copy.2\"}),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Split Column by Positions\",{{\"DateID - Copy.1\", Int64.Type}, {\"DateID - Copy.2\", Int64.Type}}),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"DateID - Copy.1\", \"YYYYMM\"}}),\n    #\"Removed Columns\" = Table.RemoveColumns(#\"Renamed Columns\",{\"DateID - Copy.2\"}),\n    #\"Reordered Columns\" = Table.ReorderColumns(#\"Removed Columns\",{\"YYYYMM\", \"DateID\", \"MedallionID\", \"HackneyLicenseID\", \"PickupTimeID\", \"DropoffTimeID\", \"PickupGeographyID\", \"DropoffGeographyID\", \"PickupLatitude\", \"PickupLongitude\", \"PickupLatLong\", \"DropoffLatitude\", \"DropoffLongitude\", \"DropoffLatLong\", \"PassengerCount\", \"TripDurationSeconds\", \"TripDistanceMiles\", \"PaymentType\", \"FareAmount\", \"SurchargeAmount\", \"TaxAmount\", \"TipAmount\", \"TollsAmount\", \"TotalAmount\"}),\n    #\"Filtered Rows\" = Table.SelectRows(#\"Reordered Columns\", each ([YYYYMM] = 201301)),\n    #\"Removed Columns1\" = Table.RemoveColumns(#\"Filtered Rows\",{\"YYYYMM\"})\nin\n    #\"Removed Columns1\""
+      }
+    ]
+  },
+  "relationships": [],
+  "rls_roles": [],
+  "named_expressions": []
+}

@@ -1,0 +1,34 @@
+{
+  "model_name": "NYC Taxi - Folded",
+  "workspace": "SMDocTest",
+  "generated_at": "2026-02-11T16:23:37-05:00",
+  "sources": [
+    {
+      "connector": "Sql.Database",
+      "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+      "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+      "source_objects": [
+        "dbo.Trip"
+      ],
+      "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+      "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Trip = Source{[Schema=\"dbo\",Item=\"Trip\"]}[Data],\n    #\"Filtered Rows\" = Table.SelectRows(dbo_Trip, each [DateID] >= 20130101 and [DateID] <= 20130131)\nin\n    #\"Filtered Rows\""
+    }
+  ],
+  "table_map": {
+    "JanTrips-Folded": [
+      {
+        "connector": "Sql.Database",
+        "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+        "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+        "source_objects": [
+          "dbo.Trip"
+        ],
+        "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+        "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Trip = Source{[Schema=\"dbo\",Item=\"Trip\"]}[Data],\n    #\"Filtered Rows\" = Table.SelectRows(dbo_Trip, each [DateID] >= 20130101 and [DateID] <= 20130131)\nin\n    #\"Filtered Rows\""
+      }
+    ]
+  },
+  "relationships": [],
+  "rls_roles": [],
+  "named_expressions": []
+}

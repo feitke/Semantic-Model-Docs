@@ -1,0 +1,291 @@
+{
+  "model_name": "11-Solution-Sales Analysis",
+  "workspace": "SMDocTest",
+  "generated_at": "2026-02-11T16:23:52-05:00",
+  "sources": [
+    {
+      "connector": "Sql.Databases",
+      "host": null,
+      "database": null,
+      "source_objects": [
+        "dbo.FactResellerSales"
+      ],
+      "raw": "Sql.Databases(SQLInstance)",
+      "m_expression": "let\n    Source = Sql.Databases(SQLInstance),\n    AdventureWorksDW2020 = Source{[Name=Database]}[Data],\n    dbo_FactResellerSales = AdventureWorksDW2020{[Schema=\"dbo\",Item=\"FactResellerSales\"]}[Data],\n    #\"Removed Other Columns\" = Table.SelectColumns(dbo_FactResellerSales,{\"SalesOrderNumber\", \"OrderDate\", \"ProductKey\", \"=\"***REDACTED***\"ResellerKey\", \"=\"***REDACTED***\"EmployeeKey\", \"=\"***REDACTED***\"SalesTerritoryKey\", \"=\"***REDACTED***\"OrderQuantity\", \"UnitPrice\", \"TotalProductCost\", \"SalesAmount\", \"DimProduct\"}),\n    #\"Expanded DimProduct\" = Table.ExpandRecordColumn(#\"Removed Other Columns\", \"DimProduct\", {\"StandardCost\"}, {\"StandardCost\"}),\n    #\"Added Custom\" = Table.AddColumn(#\"Expanded DimProduct\", \"Cost\", each if [TotalProductCost] = null then [OrderQuantity] * [StandardCost] else [TotalProductCost]),\n    #\"Removed Columns\" = Table.RemoveColumns(#\"Added Custom\",{\"StandardCost\", \"TotalProductCost\"}),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Removed Columns\",{{\"Cost\", type number}}),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"OrderQuantity\", \"Quantity\"}, {\"UnitPrice\", \"Unit Price\"}, {\"SalesAmount\", \"Sales\"}}),\n    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Renamed Columns\",{{\"Quantity\", Int64.Type}, {\"Unit Price\", Currency.Type}, {\"Sales\", Currency.Type}, {\"Cost\", Currency.Type}})\nin\n    #\"Changed Type1\""
+    },
+    {
+      "connector": "Csv.Document",
+      "host": null,
+      "database": null,
+      "source_objects": [],
+      "raw": "Csv.Document(Web.Contents(\"https://raw.githubusercontent.com/MicrosoftLearning/PL-300-Microsoft-Power-BI-Data-Analyst/Main/Allfiles/Resources/ResellerSalesTargets.csv\")",
+      "m_expression": "let\n    Source = Csv.Document(Web.Contents(\"https://raw.githubusercontent.com/MicrosoftLearning/PL-300-Microsoft-Power-BI-Data-Analyst/Main/Allfiles/Resources/ResellerSalesTargets.csv\"),[Delimiter=\",\", Columns=14, Encoding=1200, QuoteStyle=QuoteStyle.None]),\n    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Year\", Int64.Type}, {\"EmployeeID\", Int64.Type}, {\"M01\", type text}, {\"M02\", type text}, {\"M03\", type text}, {\"M04\", type text}, {\"M05\", type text}, {\"M06\", type text}, {\"M07\", type text}, {\"M08\", type text}, {\"M09\", type text}, {\"M10\", type text}, {\"M11\", type text}, {\"M12\", type text}}),\n    #\"Unpivoted Other Columns\" = Table.UnpivotOtherColumns(#\"Changed Type\", {\"Year\", \"EmployeeID\"}, \"Attribute\", \"Value\"),\n    #\"Filtered Rows\" = Table.SelectRows(#\"Unpivoted Other Columns\", each ([Value] <> \"-\")),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Filtered Rows\",{{\"Attribute\", \"MonthNumber\"}, {\"Value\", \"Target\"}}),\n    #\"Replaced Value\" = Table.ReplaceValue(#\"Renamed Columns\",\"M\",\"\",Replacer.ReplaceText,{\"MonthNumber\"}),\n    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Replaced Value\",{{\"MonthNumber\", Int64.Type}}),\n    #\"Inserted Merged Column\" = Table.AddColumn(#\"Changed Type1\", \"TargetMonth\", each Text.Combine({Text.From([MonthNumber], \"en-US\"), \"/1/\", Text.From([Year], \"en-US\")}), type text),\n    #\"Removed Columns\" = Table.RemoveColumns(#\"Inserted Merged Column\",{\"Year\", \"MonthNumber\"}),\n    #\"Changed Type2\" = Table.TransformColumnTypes(#\"Removed Columns\",{{\"Target\", Currency.Type}, {\"TargetMonth\", type date}}),\n    #\"Multiplied Column\" = Table.TransformColumns(#\"Changed Type2\", {{\"Target\", each _ * 1000, Currency.Type}}),\n    #\"Renamed Columns1\" = Table.RenameColumns(#\"Multiplied Column\",{{\"Target\", \"TargetAmount\"}})\nin\n    #\"Renamed Columns1\""
+    }
+  ],
+  "table_map": {
+    "Salesperson (Performance)": [
+      {
+        "connector": "Sql.Databases",
+        "host": null,
+        "database": null,
+        "source_objects": [
+          "dbo.DimEmployee"
+        ],
+        "raw": "Sql.Databases(SQLInstance)",
+        "m_expression": "let\n    Source = Sql.Databases(SQLInstance),\n    AdventureWorksDW2020 = Source{[Name=Database]}[Data],\n    dbo_DimEmployee = AdventureWorksDW2020{[Schema=\"dbo\",Item=\"DimEmployee\"]}[Data],\n    #\"Filtered Rows\" = Table.SelectRows(dbo_DimEmployee, each ([SalesPersonFlag] = true)),\n    #\"Removed Other Columns\" = Table.SelectColumns(#\"Filtered Rows\",{\"EmployeeKey\", \"=\"***REDACTED***\"EmployeeNationalIDAlternateKey\", \"=\"***REDACTED***\"FirstName\", \"LastName\", \"Title\", \"EmailAddress\"}),\n    #\"Merged Columns\" = Table.CombineColumns(#\"Removed Other Columns\",{\"FirstName\", \"LastName\"},Combiner.CombineTextByDelimiter(\" \", QuoteStyle.None),\"Salesperson\"),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Merged Columns\",{{\"EmployeeNationalIDAlternateKey\", \"=\"***REDACTED***\"EmployeeID\"}, {\"EmailAddress\", \"UPN\"}})\nin\n    #\"Renamed Columns\""
+      }
+    ],
+    "SalespersonRegion": [
+      {
+        "connector": "Sql.Databases",
+        "host": null,
+        "database": null,
+        "source_objects": [
+          "dbo.DimEmployeeSalesTerritory"
+        ],
+        "raw": "Sql.Databases(SQLInstance)",
+        "m_expression": "let\n    Source = Sql.Databases(SQLInstance),\n    AdventureWorksDW2020 = Source{[Name=Database]}[Data],\n    dbo_DimEmployeeSalesTerritory = AdventureWorksDW2020{[Schema=\"dbo\",Item=\"DimEmployeeSalesTerritory\"]}[Data],\n    #\"Removed Columns\" = Table.RemoveColumns(dbo_DimEmployeeSalesTerritory,{\"DimEmployee\", \"DimSalesTerritory\"})\nin\n    #\"Removed Columns\""
+      }
+    ],
+    "Product": [
+      {
+        "connector": "Sql.Databases",
+        "host": null,
+        "database": null,
+        "source_objects": [
+          "dbo.DimProduct"
+        ],
+        "raw": "Sql.Databases(SQLInstance)",
+        "m_expression": "let\n    Source = Sql.Databases(SQLInstance),\n    AdventureWorksDW2020 = Source{[Name=Database]}[Data],\n    dbo_DimProduct = AdventureWorksDW2020{[Schema=\"dbo\",Item=\"DimProduct\"]}[Data],\n    #\"Filtered Rows\" = Table.SelectRows(dbo_DimProduct, each ([FinishedGoodsFlag] = true)),\n    #\"Removed Other Columns\" = Table.SelectColumns(#\"Filtered Rows\",{\"ProductKey\", \"=\"***REDACTED***\"EnglishProductName\", \"StandardCost\", \"Color\", \"DimProductSubcategory\"}),\n    #\"Expanded DimProductSubcategory\" = Table.ExpandRecordColumn(#\"Removed Other Columns\", \"DimProductSubcategory\", {\"EnglishProductSubcategoryName\", \"DimProductCategory\"}, {\"EnglishProductSubcategoryName\", \"DimProductCategory\"}),\n    #\"Expanded DimProductCategory\" = Table.ExpandRecordColumn(#\"Expanded DimProductSubcategory\", \"DimProductCategory\", {\"EnglishProductCategoryName\"}, {\"EnglishProductCategoryName\"}),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Expanded DimProductCategory\",{{\"EnglishProductCategoryName\", \"Category\"}, {\"EnglishProductSubcategoryName\", \"Subcategory\"}, {\"EnglishProductName\", \"Product\"}, {\"StandardCost\", \"Standard Cost\"}}),\n    #\"Merged Queries\" = Table.NestedJoin(#\"Renamed Columns\", {\"Color\"}, ColorFormats, {\"Color\"}, \"ColorFormats\", JoinKind.LeftOuter),\n    #\"Expanded ColorFormats\" = Table.ExpandTableColumn(#\"Merged Queries\", \"ColorFormats\", {\"Background Color Format\", \"Font Color Format\"}, {\"Background Color Format\", \"Font Color Format\"})\nin\n    #\"Expanded ColorFormats\""
+      }
+    ],
+    "Reseller": [
+      {
+        "connector": "Sql.Databases",
+        "host": null,
+        "database": null,
+        "source_objects": [
+          "dbo.DimReseller"
+        ],
+        "raw": "Sql.Databases(SQLInstance)",
+        "m_expression": "let\n    Source = Sql.Databases(SQLInstance),\n    AdventureWorksDW2020 = Source{[Name=Database]}[Data],\n    dbo_DimReseller = AdventureWorksDW2020{[Schema=\"dbo\",Item=\"DimReseller\"]}[Data],\n    #\"Removed Other Columns\" = Table.SelectColumns(dbo_DimReseller,{\"ResellerKey\", \"=\"***REDACTED***\"BusinessType\", \"ResellerName\", \"DimGeography\"}),\n    #\"Expanded DimGeography\" = Table.ExpandRecordColumn(#\"Removed Other Columns\", \"DimGeography\", {\"City\", \"StateProvinceName\", \"EnglishCountryRegionName\"}, {\"City\", \"StateProvinceName\", \"EnglishCountryRegionName\"}),\n    #\"Replaced Value\" = Table.ReplaceValue(#\"Expanded DimGeography\",\"Ware House\",\"Warehouse\",Replacer.ReplaceText,{\"BusinessType\"}),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Replaced Value\",{{\"BusinessType\", \"Business Type\"}, {\"ResellerName\", \"Reseller\"}, {\"StateProvinceName\", \"State-Province\"}, {\"EnglishCountryRegionName\", \"Country-Region\"}})\nin\n    #\"Renamed Columns\""
+      }
+    ],
+    "Region": [
+      {
+        "connector": "Sql.Databases",
+        "host": null,
+        "database": null,
+        "source_objects": [
+          "dbo.DimSalesTerritory"
+        ],
+        "raw": "Sql.Databases(SQLInstance)",
+        "m_expression": "let\n    Source = Sql.Databases(SQLInstance),\n    AdventureWorksDW2020 = Source{[Name=Database]}[Data],\n    dbo_DimSalesTerritory = AdventureWorksDW2020{[Schema=\"dbo\",Item=\"DimSalesTerritory\"]}[Data],\n    #\"Filtered Rows\" = Table.SelectRows(dbo_DimSalesTerritory, each ([SalesTerritoryAlternateKey] <> 0)),\n    #\"Removed Other Columns\" = Table.SelectColumns(#\"Filtered Rows\",{\"SalesTerritoryKey\", \"=\"***REDACTED***\"SalesTerritoryRegion\", \"SalesTerritoryCountry\", \"SalesTerritoryGroup\"}),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Removed Other Columns\",{{\"SalesTerritoryRegion\", \"Region\"}, {\"SalesTerritoryCountry\", \"Country\"}, {\"SalesTerritoryGroup\", \"Group\"}})\nin\n    #\"Renamed Columns\""
+      }
+    ],
+    "Sales": [
+      {
+        "connector": "Sql.Databases",
+        "host": null,
+        "database": null,
+        "source_objects": [
+          "dbo.FactResellerSales"
+        ],
+        "raw": "Sql.Databases(SQLInstance)",
+        "m_expression": "let\n    Source = Sql.Databases(SQLInstance),\n    AdventureWorksDW2020 = Source{[Name=Database]}[Data],\n    dbo_FactResellerSales = AdventureWorksDW2020{[Schema=\"dbo\",Item=\"FactResellerSales\"]}[Data],\n    #\"Removed Other Columns\" = Table.SelectColumns(dbo_FactResellerSales,{\"SalesOrderNumber\", \"OrderDate\", \"ProductKey\", \"=\"***REDACTED***\"ResellerKey\", \"=\"***REDACTED***\"EmployeeKey\", \"=\"***REDACTED***\"SalesTerritoryKey\", \"=\"***REDACTED***\"OrderQuantity\", \"UnitPrice\", \"TotalProductCost\", \"SalesAmount\", \"DimProduct\"}),\n    #\"Expanded DimProduct\" = Table.ExpandRecordColumn(#\"Removed Other Columns\", \"DimProduct\", {\"StandardCost\"}, {\"StandardCost\"}),\n    #\"Added Custom\" = Table.AddColumn(#\"Expanded DimProduct\", \"Cost\", each if [TotalProductCost] = null then [OrderQuantity] * [StandardCost] else [TotalProductCost]),\n    #\"Removed Columns\" = Table.RemoveColumns(#\"Added Custom\",{\"StandardCost\", \"TotalProductCost\"}),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Removed Columns\",{{\"Cost\", type number}}),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"OrderQuantity\", \"Quantity\"}, {\"UnitPrice\", \"Unit Price\"}, {\"SalesAmount\", \"Sales\"}}),\n    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Renamed Columns\",{{\"Quantity\", Int64.Type}, {\"Unit Price\", Currency.Type}, {\"Sales\", Currency.Type}, {\"Cost\", Currency.Type}})\nin\n    #\"Changed Type1\""
+      }
+    ],
+    "Targets": [
+      {
+        "connector": "Csv.Document",
+        "host": null,
+        "database": null,
+        "source_objects": [],
+        "raw": "Csv.Document(Web.Contents(\"https://raw.githubusercontent.com/MicrosoftLearning/PL-300-Microsoft-Power-BI-Data-Analyst/Main/Allfiles/Resources/ResellerSalesTargets.csv\")",
+        "m_expression": "let\n    Source = Csv.Document(Web.Contents(\"https://raw.githubusercontent.com/MicrosoftLearning/PL-300-Microsoft-Power-BI-Data-Analyst/Main/Allfiles/Resources/ResellerSalesTargets.csv\"),[Delimiter=\",\", Columns=14, Encoding=1200, QuoteStyle=QuoteStyle.None]),\n    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Year\", Int64.Type}, {\"EmployeeID\", Int64.Type}, {\"M01\", type text}, {\"M02\", type text}, {\"M03\", type text}, {\"M04\", type text}, {\"M05\", type text}, {\"M06\", type text}, {\"M07\", type text}, {\"M08\", type text}, {\"M09\", type text}, {\"M10\", type text}, {\"M11\", type text}, {\"M12\", type text}}),\n    #\"Unpivoted Other Columns\" = Table.UnpivotOtherColumns(#\"Changed Type\", {\"Year\", \"EmployeeID\"}, \"Attribute\", \"Value\"),\n    #\"Filtered Rows\" = Table.SelectRows(#\"Unpivoted Other Columns\", each ([Value] <> \"-\")),\n    #\"Renamed Columns\" = Table.RenameColumns(#\"Filtered Rows\",{{\"Attribute\", \"MonthNumber\"}, {\"Value\", \"Target\"}}),\n    #\"Replaced Value\" = Table.ReplaceValue(#\"Renamed Columns\",\"M\",\"\",Replacer.ReplaceText,{\"MonthNumber\"}),\n    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Replaced Value\",{{\"MonthNumber\", Int64.Type}}),\n    #\"Inserted Merged Column\" = Table.AddColumn(#\"Changed Type1\", \"TargetMonth\", each Text.Combine({Text.From([MonthNumber], \"en-US\"), \"/1/\", Text.From([Year], \"en-US\")}), type text),\n    #\"Removed Columns\" = Table.RemoveColumns(#\"Inserted Merged Column\",{\"Year\", \"MonthNumber\"}),\n    #\"Changed Type2\" = Table.TransformColumnTypes(#\"Removed Columns\",{{\"Target\", Currency.Type}, {\"TargetMonth\", type date}}),\n    #\"Multiplied Column\" = Table.TransformColumns(#\"Changed Type2\", {{\"Target\", each _ * 1000, Currency.Type}}),\n    #\"Renamed Columns1\" = Table.RenameColumns(#\"Multiplied Column\",{{\"Target\", \"TargetAmount\"}})\nin\n    #\"Renamed Columns1\""
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "fromTable": "Sales",
+      "fromColumn": "ProductKey",
+      "toTable": "Product",
+      "toColumn": "ProductKey",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "337a2a65-a524-5200-ffa1-fe63f49de233"
+    },
+    {
+      "fromTable": "Sales",
+      "fromColumn": "SalesTerritoryKey",
+      "toTable": "Region",
+      "toColumn": "SalesTerritoryKey",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "54e760c0-ed91-374c-3ce7-e372fa7fa483"
+    },
+    {
+      "fromTable": "Sales",
+      "fromColumn": "EmployeeKey",
+      "toTable": "Salesperson (Performance)",
+      "toColumn": "EmployeeKey",
+      "isActive": false,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "36bf540f-95fa-f565-beac-d3278b164320"
+    },
+    {
+      "fromTable": "Sales",
+      "fromColumn": "ResellerKey",
+      "toTable": "Reseller",
+      "toColumn": "ResellerKey",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "0cc9b6a8-4c34-8503-dd93-c0291078795d"
+    },
+    {
+      "fromTable": "SalespersonRegion",
+      "fromColumn": "EmployeeKey",
+      "toTable": "Salesperson (Performance)",
+      "toColumn": "EmployeeKey",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "4ee05b49-a653-04bd-0b7b-d697f0963680"
+    },
+    {
+      "fromTable": "SalespersonRegion",
+      "fromColumn": "SalesTerritoryKey",
+      "toTable": "Region",
+      "toColumn": "SalesTerritoryKey",
+      "isActive": true,
+      "crossFilteringBehavior": "BothDirections",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "06d2419f-fdcc-47a0-4707-038f2ceb7174"
+    },
+    {
+      "fromTable": "Targets",
+      "fromColumn": "EmployeeID",
+      "toTable": "Salesperson (Performance)",
+      "toColumn": "EmployeeID",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "b67f057a-6409-6474-fce4-595e8035683f"
+    },
+    {
+      "fromTable": "Sales",
+      "fromColumn": "OrderDate",
+      "toTable": "Date",
+      "toColumn": "Date",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "cc2e0e7c-5b82-65cc-30a8-f822bbac58eb"
+    },
+    {
+      "fromTable": "Sales",
+      "fromColumn": "EmployeeKey",
+      "toTable": "Salesperson",
+      "toColumn": "EmployeeKey",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "fe41aee4-4daa-952a-eb7a-93434d340a5f"
+    },
+    {
+      "fromTable": "Targets",
+      "fromColumn": "TargetMonth",
+      "toTable": "Date",
+      "toColumn": "Date",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "892269ed-bf5d-0106-56c0-d4c9d6141c92"
+    }
+  ],
+  "rls_roles": [
+    {
+      "modelPermission": "Read",
+      "tableNames": [
+        "Salesperson (Performance)"
+      ],
+      "name": "Salespeople",
+      "tablePermissions": [
+        {
+          "TableName": "Salesperson (Performance)",
+          "FilterExpression": "[UPN] = USERPRINCIPALNAME()",
+          "MetadataPermission": "Default"
+        }
+      ]
+    }
+  ],
+  "named_expressions": [
+    {
+      "name": "ColorFormats",
+      "expression": "let\n    Source = Csv.Document(Web.Contents(\"https://raw.githubusercontent.com/MicrosoftLearning/PL-300-Microsoft-Power-BI-Data-Analyst/Main/Allfiles/Resources/ColorFormats.csv\"),[Delimiter=\",\", Columns=3, Encoding=65001, QuoteStyle=QuoteStyle.None]),\n    #\"Changed Type\" = Table.TransformColumnTypes(Source,{{\"Column1\", type text}, {\"Column2\", type text}, {\"Column3\", type text}}),\n    #\"Promoted Headers\" = Table.PromoteHeaders(#\"Changed Type\", [PromoteAllScalars=true]),\n    #\"Changed Type1\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Color\", type text}, {\"Background Color Format\", type text}, {\"Font Color Format\", type text}})\nin\n    #\"Changed Type1\"",
+      "kind": "M",
+      "description": "",
+      "lineageTag": "",
+      "sourceLineageTag": "",
+      "annotations": [
+        {
+          "key": "PBI_ResultType",
+          "value": "Table"
+        }
+      ],
+      "extendedProperties": [],
+      "modifiedTime": "0001-01-01T00:00:00"
+    },
+    {
+      "name": "SQLInstance",
+      "expression": "\"localhost\" meta [IsParameterQuery=true, Type=\"Text\", IsParameterQueryRequired=true]",
+      "kind": "M",
+      "description": "",
+      "lineageTag": "",
+      "sourceLineageTag": "",
+      "annotations": [
+        {
+          "key": "PBI_NavigationStepName",
+          "value": "Navigation"
+        },
+        {
+          "key": "PBI_ResultType",
+          "value": "Text"
+        }
+      ],
+      "extendedProperties": [],
+      "modifiedTime": "0001-01-01T00:00:00"
+    },
+    {
+      "name": "Database",
+      "expression": "\"AdventureWorksDW2020\" meta [IsParameterQuery=true, Type=\"Text\", IsParameterQueryRequired=true]",
+      "kind": "M",
+      "description": "",
+      "lineageTag": "",
+      "sourceLineageTag": "",
+      "annotations": [
+        {
+          "key": "PBI_ResultType",
+          "value": "Text"
+        }
+      ],
+      "extendedProperties": [],
+      "modifiedTime": "0001-01-01T00:00:00"
+    }
+  ]
+}
