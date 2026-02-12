@@ -1,0 +1,173 @@
+{
+  "model_name": "NYC Taxi - DQ",
+  "workspace": "SMDocTest",
+  "generated_at": "2026-02-12T10:36:58-05:00",
+  "sources": [
+    {
+      "connector": "Sql.Database",
+      "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+      "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+      "source_objects": [
+        "dbo.Weather"
+      ],
+      "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+      "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Weather = Source{[Schema=\"dbo\",Item=\"Weather\"]}[Data]\nin\n    dbo_Weather"
+    }
+  ],
+  "table_map": {
+    "Date": [
+      {
+        "connector": "Sql.Database",
+        "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+        "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+        "source_objects": [
+          "dbo.Date"
+        ],
+        "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+        "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Date = Source{[Schema=\"dbo\",Item=\"Date\"]}[Data]\nin\n    dbo_Date"
+      }
+    ],
+    "Geography": [
+      {
+        "connector": "Sql.Database",
+        "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+        "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+        "source_objects": [
+          "dbo.Geography"
+        ],
+        "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+        "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Geography = Source{[Schema=\"dbo\",Item=\"Geography\"]}[Data]\nin\n    dbo_Geography"
+      }
+    ],
+    "HackneyLicense": [
+      {
+        "connector": "Sql.Database",
+        "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+        "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+        "source_objects": [
+          "dbo.HackneyLicense"
+        ],
+        "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+        "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_HackneyLicense = Source{[Schema=\"dbo\",Item=\"HackneyLicense\"]}[Data]\nin\n    dbo_HackneyLicense"
+      }
+    ],
+    "Medallion": [
+      {
+        "connector": "Sql.Database",
+        "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+        "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+        "source_objects": [
+          "dbo.Medallion"
+        ],
+        "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+        "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Medallion = Source{[Schema=\"dbo\",Item=\"Medallion\"]}[Data]\nin\n    dbo_Medallion"
+      }
+    ],
+    "Time": [
+      {
+        "connector": "Sql.Database",
+        "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+        "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+        "source_objects": [
+          "dbo.Time"
+        ],
+        "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+        "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Time = Source{[Schema=\"dbo\",Item=\"Time\"]}[Data]\nin\n    dbo_Time"
+      }
+    ],
+    "Trip": [
+      {
+        "connector": "Sql.Database",
+        "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+        "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+        "source_objects": [
+          "dbo.Trip"
+        ],
+        "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+        "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Trip = Source{[Schema=\"dbo\",Item=\"Trip\"]}[Data]\nin\n    dbo_Trip"
+      }
+    ],
+    "Weather": [
+      {
+        "connector": "Sql.Database",
+        "host": "rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com",
+        "database": "FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7",
+        "source_objects": [
+          "dbo.Weather"
+        ],
+        "raw": "Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\")",
+        "m_expression": "let\n    Source = Sql.Database(\"rddhezwna3wutjobbbcron4k6e-vepdvwfqpavevgmawk5vs6h23e.database.fabric.microsoft.com\", \"FoldingDemo-47385673-59b2-4c32-9e8e-4c383aa2b2a7\"),\n    dbo_Weather = Source{[Schema=\"dbo\",Item=\"Weather\"]}[Data]\nin\n    dbo_Weather"
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "fromTable": "Trip",
+      "fromColumn": "DateID",
+      "toTable": "Date",
+      "toColumn": "DateID",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "a775a017-0ca7-b771-238b-93ed365548d7"
+    },
+    {
+      "fromTable": "Trip",
+      "fromColumn": "DropoffGeographyID",
+      "toTable": "Geography",
+      "toColumn": "GeographyID",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "a68dc6bf-efca-5166-7085-c20f90f9ca99"
+    },
+    {
+      "fromTable": "Trip",
+      "fromColumn": "HackneyLicenseID",
+      "toTable": "HackneyLicense",
+      "toColumn": "HackneyLicenseID",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "c51e1a3d-47c0-ed05-c07e-b93d11a0bd23"
+    },
+    {
+      "fromTable": "Trip",
+      "fromColumn": "MedallionID",
+      "toTable": "Medallion",
+      "toColumn": "MedallionID",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "d5287bc3-e0cc-8e18-4758-beda8251b4bf"
+    },
+    {
+      "fromTable": "Trip",
+      "fromColumn": "DropoffTimeID",
+      "toTable": "Time",
+      "toColumn": "TimeID",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "17818a5c-7874-cbac-5f8b-1b0ab760d2ba"
+    },
+    {
+      "fromTable": "Weather",
+      "fromColumn": "DateID",
+      "toTable": "Date",
+      "toColumn": "DateID",
+      "isActive": true,
+      "crossFilteringBehavior": "OneDirection",
+      "fromCardinality": "Many",
+      "toCardinality": "One",
+      "name": "8bef8b52-a1d4-6fc4-2ea0-e3d3fd72a28a"
+    }
+  ],
+  "rls_roles": [],
+  "named_expressions": []
+}
