@@ -1,7 +1,7 @@
 {
   "model_name": "NYC Taxi - Not Folded",
   "workspace": "SMDocTest",
-  "generated_at": "2026-02-12T10:24:54-05:00",
+  "generated_at": "2026-02-12T14:36:15-05:00",
   "sources": [
     {
       "connector": "Sql.Database",

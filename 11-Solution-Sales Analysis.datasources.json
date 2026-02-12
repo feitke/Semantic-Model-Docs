@@ -1,7 +1,7 @@
 {
   "model_name": "11-Solution-Sales Analysis",
   "workspace": "SMDocTest",
-  "generated_at": "2026-02-12T10:25:36-05:00",
+  "generated_at": "2026-02-12T14:36:33-05:00",
   "sources": [
     {
       "connector": "Sql.Databases",

@@ -1,7 +1,7 @@
 # NYC Taxi - Folded
 
 **Workspace:** SMDocTest  
-**Generated:** 2026-02-12T10:25:16-05:00
+**Generated:** 2026-02-12T14:36:25-05:00
 
 ## Overview
 - **Model Type:** Import

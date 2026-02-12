@@ -1,7 +1,7 @@
 {
   "model_name": "S&P Company Report",
   "workspace": "SMDocTest",
-  "generated_at": "2026-02-12T10:24:35-05:00",
+  "generated_at": "2026-02-12T14:36:04-05:00",
   "sources": [
     {
       "connector": "Csv.Document",

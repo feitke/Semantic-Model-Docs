@@ -1,7 +1,7 @@
 # NYC Taxi - DQ
 
 **Workspace:** SMDocTest  
-**Generated:** 2026-02-12T10:36:58-05:00
+**Generated:** 2026-02-12T14:36:42-05:00
 
 ## Overview
 - **Model Type:** DirectQuery
