@@ -1,9 +1,10 @@
 # S&P Company Report
 
 **Workspace:** SMDocTest  
-**Generated:** 2026-02-11T16:23:17-05:00
+**Generated:** 2026-02-12T09:20:26-05:00
 
 ## Overview
+- **Model Type:** Import
 - **ModelName:** Model
 - **DatabaseName:** S_P Company Report
 - **CompatibilityLevel:** 1567

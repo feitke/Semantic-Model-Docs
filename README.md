@@ -1,7 +1,7 @@
 # Semantic Model Docs
 
 Workspace: SMDocTest
-Generated: 2026-02-11T16:23:52-05:00
+Generated: 2026-02-12T09:20:58-05:00
 
 - [11-Solution-Sales Analysis](11-Solution-Sales Analysis.md)
 - [NYC Taxi - Folded](NYC Taxi - Folded.md)

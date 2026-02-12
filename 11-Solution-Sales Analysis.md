@@ -1,9 +1,10 @@
 # 11-Solution-Sales Analysis
 
 **Workspace:** SMDocTest  
-**Generated:** 2026-02-11T16:23:52-05:00
+**Generated:** 2026-02-12T09:20:58-05:00
 
 ## Overview
+- **Model Type:** Import
 - **ModelName:** Model
 - **DatabaseName:** 11-Solution-Sales Analysis
 - **CompatibilityLevel:** 1567
