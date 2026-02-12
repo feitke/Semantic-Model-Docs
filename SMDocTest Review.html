@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMDocTest Review</title>
+  <style>
+    :root{
+      --bg:#0b0f17; --panel:#111827; --panel2:#0f172a; --text:#e5e7eb; --muted:#9ca3af;
+      --accent:#60a5fa; --good:#34d399; --warn:#fbbf24; --bad:#fb7185; --line:#243046;
+      --code:#0b1220;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0; font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:linear-gradient(180deg,var(--bg),#070a10);
+      color:var(--text);
+    }
+    header{
+      padding:28px 22px 18px;
+      border-bottom:1px solid var(--line);
+      background:radial-gradient(1200px 500px at 10% 0%, rgba(96,165,250,.18), transparent 60%),
+                 radial-gradient(1000px 500px at 90% 0%, rgba(52,211,153,.10), transparent 60%);
+    }
+    h1{margin:0 0 6px; font-size:22px; letter-spacing:.2px;}
+    .sub{color:var(--muted); font-size:13px;}
+    main{max-width:1100px; margin:0 auto; padding:18px 22px 64px;}
+    a{color:var(--accent); text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    .grid{display:grid; gap:12px;}
+    @media (min-width: 980px){
+      .grid.cols2{grid-template-columns: 1.2fr .8fr;}
+      .grid.cols3{grid-template-columns: 1fr 1fr 1fr;}
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 14px 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .card h2{margin:0 0 8px; font-size:15px;}
+    .card h3{margin:12px 0 6px; font-size:14px;}
+    .kpi{
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .pill{
+      border:1px solid var(--line); border-radius:999px; padding:6px 10px;
+      background:rgba(15,23,42,.55);
+      color:var(--text);
+      display:inline-flex; gap:8px; align-items:center;
+      white-space:nowrap;
+    }
+    .dot{width:8px; height:8px; border-radius:99px; display:inline-block; background:var(--muted);}
+    .dot.good{background:var(--good);} .dot.warn{background:var(--warn);} .dot.bad{background:var(--bad);}
+    table{width:100%; border-collapse:collapse; margin-top:8px; font-size:13px;}
+    th,td{border-bottom:1px solid rgba(36,48,70,.7); padding:8px 8px; text-align:left; vertical-align:top;}
+    th{color:#cbd5e1; font-weight:600; background:rgba(15,23,42,.35);}
+    .muted{color:var(--muted);}
+    .tag{display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--line); background:rgba(17,24,39,.6); font-size:12px;}
+    .tag.good{border-color:rgba(52,211,153,.35); background:rgba(52,211,153,.10);}
+    .tag.warn{border-color:rgba(251,191,36,.35); background:rgba(251,191,36,.10);}
+    .tag.bad{border-color:rgba(251,113,133,.35); background:rgba(251,113,133,.10);}
+    .toc ol{margin:8px 0 0 18px; padding:0;}
+    .toc li{margin:4px 0;}
+    .section{scroll-margin-top:84px;}
+    .rec{
+      border-left:3px solid rgba(96,165,250,.7);
+      padding:10px 10px 10px 12px;
+      background:rgba(96,165,250,.07);
+      border-radius:10px;
+      margin:10px 0;
+    }
+    .rec .meta{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 6px;}
+    .rec h4{margin:0 0 6px; font-size:14px;}
+    .rec ul{margin:6px 0 0 18px;}
+    code, pre{
+      font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    pre{
+      background:rgba(11,18,32,.9);
+      border:1px solid rgba(36,48,70,.9);
+      border-radius:12px;
+      padding:10px;
+      overflow:auto;
+      margin:8px 0;
+      color:#dbeafe;
+      font-size:12px;
+    }
+    footer{
+      position:fixed; left:0; right:0; bottom:0;
+      padding:10px 16px;
+      border-top:1px solid var(--line);
+      background:rgba(7,10,16,.85);
+      backdrop-filter: blur(10px);
+      color:var(--muted);
+      font-size:12px;
+    }
+    .small{font-size:12px;}
+    .hr{height:1px; background:var(--line); margin:14px 0;}
+  </style>
+</head>
+<body>
+  <header>
+    <div style="max-width:1100px;margin:0 auto;">
+      <h1>SMDocTest Review</h1>
+      <div class="sub">
+        Scope: 6 semantic models + datasource inventory (workspace: SMDocTest). Focus on model quality, refresh reliability, performance, and governance.
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card toc section" id="table-of-contents">
+      <h2>Table of Contents</h2>
+      <ol>
+        <li><a href="#executive-summary">Executive Summary</a></li>
+        <li><a href="#key-findings">Key Findings (Evidence-Based)</a></li>
+        <li><a href="#detailed-recommendations">Detailed Recommendations</a></li>
+        <li><a href="#implementation-steps">Implementation Steps (Phased Plan)</a></li>
+        <li><a href="#confidence-level">Confidence Level</a></li>
+      </ol>
+    </section>
+
+    <section class="grid cols2 section" id="executive-summary">
+      <div class="card">
+        <h2>Executive Summary</h2>
+        <p>
+          Overall, the workspace contains mostly small models with generally sound star schemas where present, but it has
+          <strong>material refresh and governance risks</strong> driven by (a) <strong>local file-path datasources</strong> that will not refresh in the service,
+          (b) <strong>inconsistent security posture</strong> (RLS absent in most models), and (c) <strong>Power Query folding risks</strong> in at least two import models.
+          The highest-impact improvements are: migrate local file sources to Fabric/OneLake or SharePoint, centralize shared SQL sourcing, and standardize security + naming.
+        </p>
+
+        <div class="kpi" aria-label="workspace-kpis">
+          <span class="pill"><span class="dot good"></span><strong>Star schemas:</strong> 3 (High/Low confidence)</span>
+          <span class="pill"><span class="dot warn"></span><strong>Models with no RLS:</strong> 5</span>
+          <span class="pill"><span class="dot bad"></span><strong>Non-portable local paths:</strong> 2 models</span>
+          <span class="pill"><span class="dot warn"></span><strong>Folding risk flagged:</strong> 2 models</span>
+          <span class="pill"><span class="dot warn"></span><strong>Bidirectional relationships:</strong> 2 models</span>
+        </div>
+
+        <div class="hr"></div>
+
+        <h3>Top Priority Recommendations</h3>
+        <ol>
+          <li><strong>Fix service refresh blockers</strong>: migrate local CSV/Excel file paths to SharePoint/OneLake (or gateway-backed shares).</li>
+          <li><strong>Centralize shared SQL extraction</strong (3 models share the same Fabric SQL DB source): implement Dataflow Gen2 → Lakehouse tables and reuse via Direct Lake/import.</li>
+          <li><strong>Reduce/justify bidirectional filtering</strong> and address inactive relationships; prefer single-direction star patterns with explicit measures.</li>
+          <li><strong>Standardize security</strong>: define RLS where needed; validate current UPN-based RLS in “11-Solution-Sales Analysis”.</li>
+          <li><strong>Improve Power Query folding</strong>: reorder steps to filter early; move computed columns to SQL/view where feasible.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h2>Workspace Snapshot</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Type</th>
+              <th>Schema</th>
+              <th>Notable Risks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>11-Solution-Sales Analysis</td>
+              <td>Import</td>
+              <td>Star (High)</td>
+              <td>
+                <span class="tag warn">1 inactive rel</span>
+                <span class="tag warn">1 bidirectional</span>
+                <span class="tag warn">folding risk</span>
+              </td>
+            </tr>
+            <tr>
+              <td>NYC Taxi - DQ</td>
+              <td>DirectQuery</td>
+              <td>Star (High)</td>
+              <td><span class="tag warn">no RLS</span></td>
+            </tr>
+            <tr>
+              <td>NYC Taxi - Folded</td>
+              <td>Import</td>
+              <td>Not dimensional (Low)</td>
+              <td><span class="tag warn">no RLS</span></td>
+            </tr>
+            <tr>
+              <td>NYC Taxi - Not Folded</td>
+              <td>Import</td>
+              <td>Not dimensional (Low)</td>
+              <td><span class="tag warn">no RLS</span> <span class="tag warn">folding risk</span></td>
+            </tr>
+            <tr>
+              <td>S&amp;P Company Report</td>
+              <td>Import</td>
+              <td>Star (High)</td>
+              <td><span class="tag bad">local file paths</span> <span class="tag warn">no RLS</span></td>
+            </tr>
+            <tr>
+              <td>TableauWorkbooks</td>
+              <td>Import</td>
+              <td>Star (Low)</td>
+              <td><span class="tag bad">local file path</span> <span class="tag warn">1 bidirectional</span> <span class="tag warn">no RLS</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="muted small" style="margin-top:10px;">
+          Note: Datasource inventory indicates 7 unique datasources, with 1 shared across 3 models (Fabric SQL Database).
+        </p>
+      </div>
+    </section>
+
+    <section class="card section" id="key-findings">
+      <h2>Key Findings (Evidence-Based)</h2>
+
+      <h3>1) Refresh reliability risk: local file paths</h3>
+      <ul>
+        <li><strong>S&amp;P Company Report</strong> uses local paths (e.g., <code>C:\Users\...\sp500_*.csv</code>) flagged as non-portable → service refresh will fail without a gateway and stable path mapping.</li>
+        <li><strong>TableauWorkbooks</strong> uses local Excel (<code>C:\Users\...\Working Sessions List.xlsx</code>) flagged as non-portable → same risk.</li>
+      </ul>
+
+      <h3>2) Query folding risk in import models</h3>
+      <ul>
+        <li><strong>11-Solution-Sales Analysis / Sales</strong>: a <code>Table.AddColumn</code> occurs before an explicit filter step; analysis notes no <code>Table.SelectRows</code> filter detected in the query, increasing chance of client-side processing and larger data movement.</li>
+        <li><strong>NYC Taxi - Not Folded</strong>: multiple transforms (<code>DuplicateColumn</code>, <code>SplitColumn</code>, <code>ReorderColumns</code>) occur before filtering; flagged as likely folding breakers.</li>
+      </ul>
+
+      <h3>3) Governance: RLS absent in most models</h3>
+      <ul>
+        <li>Only <strong>11-Solution-Sales Analysis</strong> defines RLS (role “Salespeople”) filtering <strong>Salesperson (Performance)</strong> by <code>[UPN] = USERPRINCIPALNAME()</code>.</li>
+        <li>All other models indicate <strong>no roles defined</strong>.</li>
+      </ul>
+
+      <h3>4) Relationship risk: inactive &amp; bidirectional</h3>
+      <ul>
+        <li><strong>11-Solution-Sales Analysis</strong> has <strong>1 inactive relationship</strong> (Sales.EmployeeKey → Salesperson (Performance).EmployeeKey) and <strong>1 bidirectional cross-filter</strong>.</li>
+        <li><strong>TableauWorkbooks</strong> has <strong>1 bidirectional cross-filter</strong>.</li>
+      </ul>
+
+      <h3>5) Consistency: naming with spaces (programmatic friction)</h3>
+      <ul>
+        <li>Multiple models include object names with spaces (e.g., “Salesperson (Performance)”, “Workbook List”, measures like “average revenue per trip”). This increases friction for tooling, DAX conventions, and automation.</li>
+      </ul>
+
+      <h3>6) Reuse opportunity: shared Fabric SQL DB used by 3 models</h3>
+      <ul>
+        <li>Datasource inventory shows a single <strong>Sql.Database</strong> endpoint consumed by <strong>NYC Taxi - DQ</strong>, <strong>NYC Taxi - Folded</strong>, and <strong>NYC Taxi - Not Folded</strong> → strong candidate for centralized ingestion/curation.</li>
+      </ul>
+    </section>
+
+    <section class="card section" id="detailed-recommendations">
+      <h2>Detailed Recommendations</h2>
+
+      <div class="rec">
+        <div class="meta">
+          <span class="tag bad">Priority: P0</span>
+          <span class="tag bad">Impact: High</span>
+          <span class="tag warn">Effort: Medium</span>
+          <span class="tag">Category: Refresh Reliability</span>
+        </div>
+        <h4>Migrate local file datasources to service-friendly storage</h4>
+        <div class="muted">Applies to: S&amp;P Company Report, TableauWorkbooks</div>
+        <ul>
+          <li>Move CSV/Excel sources from <code>C:\Users\...</code> into <strong>OneLake (Lakehouse Files / Tables)</strong> or <strong>SharePoint/Teams</strong> and update Power Query to use those connectors.</li>
+          <li>If local/network shares must remain, implement and validate an <strong>On-premises Data Gateway</strong> with stable UNC paths and credential management.</li>
+          <li>Establish a workspace-level “data landing” convention (e.g., <code>/Files/External/</code>) and versioning/lineage documentation.</li>
+        </ul>
+        <div class="small muted">Why: Local paths are a known service refresh blocker; this is the highest operational risk visible in the inventory.</div>
+      </div>
+
+      <div class="rec">
+        <div class="meta">
+          <span class="tag warn">Priority: P1</span>
+          <span class="tag good">Impact: High</span>
+          <span class="tag warn">Effort: Medium</span>
+          <span class="tag">Category: Platform Reuse</span>
+        </div>
+        <h4>Centralize shared SQL sourcing into Fabric (Dataflow Gen2 → Lakehouse/Warehouse)</h4>
+        <div class="muted">Applies to: NYC Taxi - DQ, NYC Taxi - Folded, NYC Taxi - Not Folded</div>
+        <ul>
+          <li>Create a <strong>single curated ingestion pipeline</strong> for <code>dbo.Trip</code> and <code>dbo.Weather</code> (and any reused dimensions).</li>
+          <li>Publish curated Delta tables; point downstream semantic models to curated tables via <strong>Direct Lake</strong> (preferred) or Import.</li>
+          <li>Reduce duplicate transformation logic and improve consistency (same business definitions, same filters).</li>
+        </ul>
+        <div class="small muted">Why: One SQL endpoint is used by 3 models; centralization lowers maintenance cost and improves performance predictability.</div>
+      </div>
+
+      <div class="rec">
+        <div class="meta">
+          <span class="tag warn">Priority: P1</span>
+          <span class="tag good">Impact: High</span>
+          <span class="tag warn">Effort: Medium</span>
+          <span class="tag">Category: Performance (Power Query)</span>
+        </div>
+        <h4>Fix likely query folding breaks by filtering early and moving logic upstream</h4>
+        <div class="muted">Applies to: 11-Solution-Sales Analysis (Sales), NYC Taxi - Not Folded</div>
+        <ul>
+          <li>Reorder Power Query steps to apply <strong>Table.SelectRows</strong> (date/partition filters) as early as possible, before splits/duplicates/combines.</li>
+          <li>Prefer <strong>SQL views</strong> or source-side computed columns for heavy row-by-row logic (e.g., cost calculation) to ensure pushdown.</li>
+          <li>Validate with Power Query “View Native Query” and/or SQL Profiler; capture before/after refresh durations and query text.</li>
+        </ul>
+        <details>
+          <summary class="small">Concrete example (NYC Taxi - Not Folded)</summary>
+          <div class="small muted">Current pattern: duplicate/split/reorder columns before filtering to YYYYMM=201301 (likely disables folding).</div>
+          <div class="small muted">Target pattern: filter on DateID range in SQL first, then derive YYYYMM if still needed.</div>
+        </details>
+      </div>
+
+      <div class="rec">
+        <div class="meta">
+          <span class="tag warn">Priority: P1</span>
+          <span class="tag good">Impact: Medium</span>
+          <span class="tag warn">Effort: Low</span>
+          <span class="tag">Category: Model Design</span>
+        </div>
+        <h4>Eliminate or strictly justify bidirectional cross-filter relationships</h4>
+        <div class="muted">Applies to: 11-Solution-Sales Analysis, TableauWorkbooks</div>
+        <ul>
+          <li>Convert bidirectional relationships to <strong>single-direction</strong> (dimension → fact) where possible.</li>
+          <li>If bidirectional is required for a specific calculation, prefer <strong>DAX patterns</strong> (e.g., <code>TREATAS</code>, <code>CROSSFILTER</code> inside measures) to keep default behavior safe.</li>
+          <li>Regression-test key visuals/measures after change to ensure expected filter propagation.</li>
+        </ul>
+        <div class="small muted">Why: Bidirectional filtering increases ambiguity, can create unexpected totals, and can degrade performance.</div>
+      </div>
+
+      <div class="rec">
+        <div class="meta">
+          <span class="tag warn">Priority: P2</span>
+          <span class="tag good">Impact: Medium</span>
+          <span class="tag warn">Effort: Medium</span>
+          <span class="tag">Category: Security &amp; Governance</span>
+        </div>
+        <h4>Standardize security posture (RLS) and document intended access model</h4>
+        <div class="muted">Applies to: all models; especially those without roles</div>
+        <ul>
+          <li>Decide per model: <strong>open access</strong> vs <strong>restricted access</strong>. If restricted, implement RLS roles and test with representative accounts.</li>
+          <li>For <strong>11-Solution-Sales Analysis</strong> validate that <code>[UPN]</code> values exactly match <code>USERPRINCIPALNAME()</code> (case, domain, guest formats). Add a fallback/diagnostic measure for troubleshooting.</li>
+          <li>Consider centralizing identity tables and standard claims mapping (UPN/email/employee id) to avoid fragile joins.</li>
+        </ul>
+      </div>
+
+      <div class="rec">
+        <div class="meta">
+          <span class="tag warn">Priority: P2</span>
+          <span class="tag good">Impact: Medium</span>
+          <span class="tag good">Effort: Low</span>
+          <span class="tag">Category: Semantic Layer Hygiene</span>
+        </div>
+        <h4>Normalize naming conventions (avoid spaces; consistent case)</h4>
+        <div class="muted">Applies to: all models with spaced names</div>
+        <ul>
+          <li>Adopt conventions: tables in <strong>PascalCase</strong> (or <code>Dim</code>/<code>Fact</code> prefixes), measures in <strong>Title Case</strong> without special characters, columns in <strong>PascalCase</strong>.</li>
+          <li>Rename “Salesperson (Performance)” to a stable identifier (e.g., <code>DimSalespersonPerformance</code>) and “Workbook List” to <code>WorkbookList</code> (or similar).</li>
+          <li>Where renaming breaks reports, plan a controlled migration (redirect in dependent reports; document mapping).</li>
+        </ul>
+      </div>
+
+      <div class="rec">
+        <div class="meta">
+          <span class="tag warn">Priority: P2</span>
+          <span class="tag good">Impact: Medium</span>
+          <span class="tag warn">Effort: Medium</span>
+          <span class="tag">Category: Measure Semantics</span>
+        </div>
+        <h4>Harden target/variance measures to behave predictably across filter contexts</h4>
+        <div class="muted">Applies to: 11-Solution-Sales Analysis</div>
+        <ul>
+          <li>Current measures gate on <code>HASONEVALUE('Salesperson (Performance)'[Salesperson])</code>. This can produce blanks at totals and multi-selects; confirm if that is desired.</li>
+          <li>If totals are expected, replace gating with logic that aggregates by salesperson (e.g., iterate over visible salespeople with <code>SUMX(VALUES(...), ...)</code>).</li>
+          <li>Align relationships/keys: Targets joins to Salesperson (Performance) via <code>EmployeeID</code> while Sales uses <code>EmployeeKey</code>. Validate the mapping and ensure no duplicate/unknown keys.</li>
+        </ul>
+      </div>
+
+      <div class="rec">
+        <div class="meta">
+          <span class="tag warn">Priority: P3</span>
+          <span class="tag good">Impact: Low</span>
+          <span class="tag good">Effort: Low</span>
+          <span class="tag">Category: DirectQuery Guardrails</span>
+        </div>
+        <h4>For DirectQuery models, enforce performance guardrails and monitoring</h4>
+        <div class="muted">Applies to: NYC Taxi - DQ</div>
+        <ul>
+          <li>Set expectations: limit high-cardinality visuals, avoid unconstrained table visuals, and use aggregations if needed.</li>
+          <li>Capture baseline query performance (DAX Studio/Performance Analyzer) and configure monitoring/alerting where available.</li>
+          <li>Consider a curated import/Direct Lake model if concurrency/latency becomes an issue.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card section" id="implementation-steps">
+      <h2>Implementation Steps (Phased Plan)</h2>
+
+      <h3>Phase 0 (1–2 days): Triage &amp; guardrails</h3>
+      <ol>
+        <li>Inventory which reports depend on <strong>S&amp;P Company Report</strong> and <strong>TableauWorkbooks</strong> and confirm refresh requirements (schedule, SLA, owners).</li>
+        <li>For each flagged model, enable/collect:
+          <ul>
+            <li>Refresh history + duration</li>
+            <li>Performance Analyzer traces for top pages</li>
+            <li>Power Query “View Native Query” results for flagged tables</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3>Phase 1 (3–10 days): Fix refresh blockers</h3>
+      <ol>
+        <li>Migrate local CSV/Excel files:
+          <ul>
+            <li>Preferred: upload to OneLake (Lakehouse Files) and use appropriate connector</li>
+            <li>Alternate: store in SharePoint and use SharePoint folder/file connector</li>
+            <li>Last resort: configure gateway + UNC path + credential rotation</li>
+          </ul>
+        </li>
+        <li>Update Power Query to the new source paths and validate:
+          <ul>
+            <li>Dataset refresh in service</li>
+            <li>Credential prompts resolved</li>
+            <li>Lineage/ownership documented</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3>Phase 2 (1–3 weeks): Centralize shared SQL and improve folding</h3>
+      <ol>
+        <li>Create Dataflow Gen2 (or Fabric pipeline) for the shared Fabric SQL DB:
+          <ul>
+            <li>Raw → curated (Trip, Weather; optional dimensions)</li>
+            <li>Partitioning strategy (e.g., date-based) where applicable</li>
+          </ul>
+        </li>
+        <li>Refactor NYC Taxi import models to read curated tables; retire redundant model variants where appropriate (“Folded” vs “Not Folded”).</li>
+        <li>Refactor 11-Solution-Sales Analysis queries to preserve folding:
+          <ul>
+            <li>Move the cost derivation to SQL/view if possible</li>
+            <li>Ensure filters are applied at the source where applicable</li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3>Phase 3 (ongoing): Governance and semantic layer standards</h3>
+      <ol>
+        <li>Security:
+          <ul>
+            <li>Define a standard for when RLS is required and implement roles accordingly</li>
+            <li>Validate UPN mapping in the sales model (guest accounts, aliases)</li>
+          </ul>
+        </li>
+        <li>Model hygiene:
+          <ul>
+            <li>Remove/replace bidirectional relationships unless justified</li>
+            <li>Standardize naming (no spaces, consistent casing) with a controlled migration plan</li>
+          </ul>
+        </li>
+        <li>Documentation:
+          <ul>
+            <li>Owner, refresh SLA, datasource, and security posture per model</li>
+            <li>“Business definitions” page for core measures (Sales, Profit, Target, Variance)</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <section class="card section" id="confidence-level">
+      <h2>Confidence Level</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>Confidence</th>
+            <th>Basis</th>
+            <th>What would increase confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Refresh risk (local paths)</td>
+            <td><span class="tag bad">High</span></td>
+            <td>Explicit non-portable <code>C:\Users\...</code> paths flagged in model docs.</td>
+            <td>Service refresh test results after migration/gateway setup.</td>
+          </tr>
+          <tr>
+            <td>Query folding risk</td>
+            <td><span class="tag warn">Medium</span></td>
+            <td>Heuristic flags show transforms before filters and missing filter steps in some queries.</td>
+            <td>Native query verification, SQL traces, refresh duration comparisons.</td>
+          </tr>
+          <tr>
+            <td>Security posture risk</td>
+            <td><span class="tag warn">Medium</span></td>
+            <td>Docs show RLS absent in 5 models; intent unknown (may be acceptable).</td>
+            <td>Confirmed data sensitivity classification + access requirements per model.</td>
+          </tr>
+          <tr>
+            <td>Relationship/model design risk</td>
+            <td><span class="tag warn">Medium</span></td>
+            <td>Bidirectional relationships and an inactive relationship are documented.</td>
+            <td>Review of actual DAX measures and report behavior; dependency analysis.</td>
+          </tr>
+          <tr>
+            <td>Measure semantic issues (targets/variance totals)</td>
+            <td><span class="tag warn">Medium</span></td>
+            <td>Measures explicitly blank out when not single salesperson; may be intended.</td>
+            <td>Business requirements for totals and multi-select behavior; validation with users.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="hr"></div>
+      <div class="small muted">
+        Notes: This review is based on exported model documentation (relationships, measures, and M snippets). It does not include PBIX report layouts, capacity metrics, refresh logs, or tenant-level governance settings.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Generated by gpt-5.2 based on data as of 2026-02-12T16:22:42-05:00.
+  </footer>
+</body>
+</html>
